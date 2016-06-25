@@ -6,19 +6,8 @@ moduleForComponent('header-navbar', 'Integration | Component | header navbar', {
 });
 
 test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  assert.expect(1);
 
   this.render(hbs`{{header-navbar}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#header-navbar}}
-      template block text
-    {{/header-navbar}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$('.navbar').length, 1);
 });
