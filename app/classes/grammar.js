@@ -8,12 +8,16 @@ export default Ember.Object.extend({
   startSymbol: null,
   productions: A(),
 
-  isValid: computed('nonTerminalSymbolsErrors', 'terminalSymbolsErrors', 'startSymbolErrors', 'productions.@each.isValid', function() {
+  isValid: computed('nonTerminalSymbolsErrors', 'terminalSymbolsErrors', 'startSymbolErrors', 'productions.@each.errors', function() {
     let valid = true;
     valid = valid && this.get('nonTerminalSymbolsErrors').length === 0;
     valid = valid && this.get('terminalSymbolsErrors').length === 0;
     valid = valid && this.get('startSymbolErrors').length === 0;
     valid = valid && this.get('productions').length > 0;
+
+    this.get('productions').forEach((production) => {
+      valid = valid && production.get('errors').length === 0;
+    });
 
     return valid;
   }),

@@ -5,6 +5,9 @@ const { A, computed } = Ember;
 const ProductionInput = Ember.Component.extend({
   production: null,
   classNames: ['production-input'],
+  classNameBindings: ['hasError'],
+
+  hasError: computed.notEmpty('production.errors'),
 
   nonTerminalSymbols: A(),
   terminalSymbols: A(),

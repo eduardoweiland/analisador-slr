@@ -30,7 +30,7 @@ test('it returns a reference to the selected symbol', function(assert) {
   assert.equal(this.get('symbols.0'), symbol);
 });
 
-test('it returns null for invalid symbols', function(assert) {
+test('it returns the symbol name for invalid symbols', function(assert) {
   assert.expect(1);
 
   let symbol = Symbol.create({ name: 'A', type: SymbolType.NON_TERMINAL });
@@ -44,7 +44,7 @@ test('it returns null for invalid symbols', function(assert) {
   `);
 
   this.$('input').val('a').trigger('change');
-  assert.equal(this.get('symbols.0'), null);
+  assert.equal(this.get('symbols.0'), 'a');
 });
 
 test('it returns only one symbol in single mode', function(assert) {

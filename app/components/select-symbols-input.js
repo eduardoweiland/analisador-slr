@@ -41,7 +41,7 @@ export default TextField.extend({
         symbols.pushObject(symbol);
       }
       else {
-        symbols.pushObject(null);
+        symbols.pushObject(name);
       }
     });
 
