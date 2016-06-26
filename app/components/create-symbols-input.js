@@ -17,7 +17,7 @@ export default TextField.extend({
   symbolType: null,
 
   valueDidChange: observer('value', function() {
-    let names = this.get('value').match(/([^\s]+)/g);
+    let names = this.get('value').match(/([^\s]+)/g) || A();
     let type = this.get('symbolType');
     let symbols = A();
 
