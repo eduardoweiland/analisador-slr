@@ -24,6 +24,12 @@ export default TextField.extend({
    */
   single: false,
 
+  keyDown(e) {
+    if (e.keyCode === 32 && this.get('single')) {
+      return false;
+    }
+  },
+
   valueDidChange: observer('availableSymbols.[]', 'value', function() {
     let names = this.get('value').match(/([^\s]+)/g) || A();
     let symbols = A();
