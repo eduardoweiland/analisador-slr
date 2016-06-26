@@ -13,15 +13,15 @@
       <div class="panel-body">
         <div class="form-group">
           <label class="control-label">Símbolos não-terminais:</label>
-          {{symbols-input symbols=grammar.nonTerminalSymbols placeholder="Exemplo: S A B"}}
+          {{create-symbols-input symbolsChanged=(action (mut grammar.nonTerminalSymbols)) placeholder="Exemplo: S A B" symbolType="nt"}}
         </div>
         <div class="form-group">
           <label class="control-label">Símbolos terminais:</label>
-          {{symbols-input symbols=grammar.terminalSymbols placeholder="Exemplo: a b c"}}
+          {{create-symbols-input symbolsChanged=(action (mut grammar.terminalSymbols)) placeholder="Exemplo: a b c" symbolType="t"}}
         </div>
         <div class="form-group">
           <label class="control-label">Símbolo de início de produção:</label>
-          {{input value=grammar.startSymbol class="form-control" placeholder="Exemplo: S"}}
+          {{select-symbols-input single=true symbolChanged=(action (mut grammar.startSymbol)) placeholder="Exemplo: S" availableSymbols=grammar.nonTerminalSymbols}}
         </div>
 
         <ul class="text-muted">
@@ -43,7 +43,7 @@
       </div>
       <div class="panel-body">
         {{#each grammar.productions as |p|}}
-          {{production-input p remove=(action "removeProduction")}}
+          {{production-input p remove=(action "removeProduction") nonTerminalSymbols=grammar.nonTerminalSymbols terminalSymbols=grammar.terminalSymbols}}
         {{else}}
           {{#bs-alert type="info" dismissible=false class="text-center"}}
             Nenhuma regra adicionada ainda. Clique em adicionar {{fa-icon "arrow-up"}}
