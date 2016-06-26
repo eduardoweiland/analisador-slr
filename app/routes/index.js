@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { Grammar } from 'analisador-slr/classes';
 
 export default Ember.Route.extend({
   model() {
-    return this.get('store').createRecord('grammar');
+    return Grammar.create();
   }
 });

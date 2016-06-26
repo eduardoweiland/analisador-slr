@@ -1,19 +1,19 @@
 import Ember from 'ember';
+import { Grammar, Production } from 'analisador-slr/classes';
 
-const { Component, assert, inject } = Ember;
+const { Component, assert } = Ember;
 
 const GrammarInput = Component.extend({
-  store: inject.service('store'),
   grammar: null,
 
   init() {
     this._super(...arguments);
-    assert('You must pass a grammar object as parameter to grammar-input component', this.get('grammar'));
+    assert('You must pass a grammar object as parameter to grammar-input', this.get('grammar') instanceof Grammar);
   },
 
   actions: {
     addProduction() {
-      let production = this.get('store').createRecord('production');
+      let production = Production.create();
       this.get('grammar.productions').pushObject(production);
     },
 

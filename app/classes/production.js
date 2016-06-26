@@ -1,12 +1,10 @@
 import Ember from 'ember';
-import Model from 'ember-data/model';
-import { belongsTo, hasMany } from 'ember-data/relationships';
 
-const { computed, isEmpty } = Ember;
+const { A, computed, isEmpty } = Ember;
 
-export default Model.extend({
-  leftSide: belongsTo('symbol', { inverse: null, async: false }),
-  rightSide: hasMany('symbol', { inverse: null, async: false }),
+export default Ember.Object.extend({
+  leftSide: A(),
+  rightSide: A(),
 
   isValidLeftSide: computed.and('leftSide.isValid', 'leftSide.isNonTerminal'),
 

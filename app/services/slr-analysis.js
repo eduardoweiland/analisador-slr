@@ -1,7 +1,8 @@
 import Ember from 'ember';
-import { SymbolType } from 'analisador-slr/models/symbol';
+import { Production, Symbol } from 'analisador-slr/classes';
+import { SymbolType } from 'analisador-slr/classes/symbol';
 
-const { Service, inject } = Ember;
+const { Service } = Ember;
 
 /**
  * SLR Analysis implementation.
@@ -10,8 +11,6 @@ const { Service, inject } = Ember;
  * @extends Ember.Service
  */
 export default Service.extend({
-  store: inject.service('store'),
-
   /**
    * Modifies the grammar to be an augmented grammar (i.e. adds a new
    * production replacing the start symbol).
@@ -23,12 +22,12 @@ export default Service.extend({
   augmentGrammar(grammar) {
     let startSymbol = grammar.get('startSymbol');
 
-    let newSymbol = this.get('store').createRecord('symbol', {
+    let newSymbol = Symbol.create({
       name: `${startSymbol.get('name')}'`,
       type: SymbolType.NON_TERMINAL
     });
 
-    let newProduction = this.get('store').createRecord('production', {
+    let newProduction = Production.create({
       leftSide: newSymbol,
       rightSide: [startSymbol]
     });

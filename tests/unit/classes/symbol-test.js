@@ -1,15 +1,13 @@
-import { moduleForModel, test } from 'ember-qunit';
-import { SymbolType } from 'analisador-slr/models/symbol';
+import { module, test } from 'qunit';
+import { SymbolType } from 'analisador-slr/classes/symbol';
+import { Symbol } from 'analisador-slr/classes';
 
-moduleForModel('symbol', 'Unit | Model | symbol', {
-  // Specify the other units that are required for this test.
-  needs: []
-});
+module('Unit | Class | symbol');
 
 test('empty symbol name is invalid', function(assert) {
   assert.expect(3);
 
-  let model = this.subject({
+  let model = Symbol.create({
     name: '',
     type: SymbolType.TERMINAL
   });
@@ -22,7 +20,7 @@ test('empty symbol name is invalid', function(assert) {
 test('empty type is invalid', function(assert) {
   assert.expect(3);
 
-  let model = this.subject({
+  let model = Symbol.create({
     name: 'a',
     type: ''
   });
@@ -35,7 +33,7 @@ test('empty type is invalid', function(assert) {
 test('invalid type', function(assert) {
   assert.expect(3);
 
-  let model = this.subject({
+  let model = Symbol.create({
     name: 'a',
     type: 'INVALID'
   });
@@ -48,7 +46,7 @@ test('invalid type', function(assert) {
 test('valid terminal symbol', function(assert) {
   assert.expect(3);
 
-  let model = this.subject({
+  let model = Symbol.create({
     name: 'a',
     type: SymbolType.TERMINAL
   });
@@ -61,7 +59,7 @@ test('valid terminal symbol', function(assert) {
 test('valid non-terminal symbol', function(assert) {
   assert.expect(3);
 
-  let model = this.subject({
+  let model = Symbol.create({
     name: 'A',
     type: SymbolType.NON_TERMINAL
   });

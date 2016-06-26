@@ -1,44 +1,37 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
-import { SymbolType } from 'analisador-slr/models/symbol';
+import { SymbolType } from 'analisador-slr/classes/symbol';
+import { Grammar, Production, Symbol } from 'analisador-slr/classes';
 
 const { run } = Ember;
 
 let grammar;
+let S, A, B, a, b;
+let p1, p2, p3, p4, p5, p6;
 
 moduleFor('service:slr-analysis', 'Unit | Service | slr analysis', {
   // Specify the other units that are required for this test.
-  needs: ['model:grammar', 'model:production', 'model:symbol'],
+  needs: [],
 
   setup() {
-    let store = this.container.lookup('service:store');
-    let S, A, B, a, b;
-    let p1, p2, p3, p4, p5, p6;
+    S = Symbol.create({ name: 'S', type: SymbolType.NON_TERMINAL });
+    A = Symbol.create({ name: 'A', type: SymbolType.NON_TERMINAL });
+    B = Symbol.create({ name: 'B', type: SymbolType.NON_TERMINAL });
+    a = Symbol.create({ name: 'a', type: SymbolType.TERMINAL });
+    b = Symbol.create({ name: 'b', type: SymbolType.TERMINAL });
 
-    run(() => {
-      S = store.createRecord('symbol', { name: 'S', type: SymbolType.NON_TERMINAL });
-      A = store.createRecord('symbol', { name: 'A', type: SymbolType.NON_TERMINAL });
-      B = store.createRecord('symbol', { name: 'B', type: SymbolType.NON_TERMINAL });
-      a = store.createRecord('symbol', { name: 'a', type: SymbolType.TERMINAL });
-      b = store.createRecord('symbol', { name: 'b', type: SymbolType.TERMINAL });
-    });
+    p1 = Production.create({ leftSide: S, rightSide: [A, B] });
+    p2 = Production.create({ leftSide: A, rightSide: [a, B] });
+    p3 = Production.create({ leftSide: A, rightSide: [b] });
+    p4 = Production.create({ leftSide: B, rightSide: [A, b] });
+    p5 = Production.create({ leftSide: B, rightSide: [b] });
+    p6 = Production.create({ leftSide: B, rightSide: [A] });
 
-    run(() => {
-      p1 = store.createRecord('production', { leftSide: S, rightSide: [A, B] });
-      p2 = store.createRecord('production', { leftSide: A, rightSide: [a, B] });
-      p3 = store.createRecord('production', { leftSide: A, rightSide: [b] });
-      p4 = store.createRecord('production', { leftSide: B, rightSide: [A, b] });
-      p5 = store.createRecord('production', { leftSide: B, rightSide: [b] });
-      p6 = store.createRecord('production', { leftSide: B, rightSide: [A] });
-    });
-
-    run(() => {
-      grammar = store.createRecord('grammar', {
-        terminalSymbols: [a, b],
-        nonTerminalSymbols: [S, A, B],
-        productions: [p1, p2, p3, p4, p5, p6],
-        startSymbol: S
-      });
+    grammar = Grammar.create({
+      terminalSymbols: [a, b],
+      nonTerminalSymbols: [S, A, B],
+      productions: [p1, p2, p3, p4, p5, p6],
+      startSymbol: S
     });
   }
 });
