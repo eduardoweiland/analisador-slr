@@ -63,3 +63,15 @@ test('augmented grammar', function(assert) {
 
   assert.equal(grammar.get('startSymbol.name'), "S'", 'Start symbol is the new symbol');
 });
+
+test('add canonic items to productions', function(assert) {
+  let service = this.subject();
+
+  run(() => {
+    service.addCanonicItems(grammar);
+  });
+
+  grammar.get('productions').forEach((production) => {
+    assert.equal(production.get('rightSide.0.type'), SymbolType.ITEM);
+  });
+});

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { Production, Symbol } from 'analisador-slr/classes';
+import { Production, Symbol, CanonicItem } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 const { Service } = Ember;
@@ -35,5 +35,18 @@ export default Service.extend({
     grammar.get('nonTerminalSymbols').unshiftObject(newSymbol);
     grammar.get('productions').unshiftObject(newProduction);
     grammar.set('startSymbol', newSymbol);
+  },
+
+  /**
+   * Adds the canonic item to the beginning of all productions of the grammar.
+   *
+   * @method addCanonicItems
+   * @param {Grammar} grammar Grammar to be modified.
+   * @public
+   */
+  addCanonicItems(grammar) {
+    grammar.get('productions').forEach((production) => {
+      production.get('rightSide').unshiftObject(CanonicItem.create());
+    });
   }
 });

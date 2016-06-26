@@ -4,7 +4,8 @@ const { computed } = Ember;
 
 export const SymbolType = {
   TERMINAL: 't',
-  NON_TERMINAL: 'nt'
+  NON_TERMINAL: 'nt',
+  ITEM: 'i'
 };
 
 export default Ember.Object.extend({
