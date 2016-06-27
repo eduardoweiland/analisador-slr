@@ -1,1 +1,16 @@
+<div class="row">
+  <div class="col-xs-12 page-header">
+    <h2>Entrada da gramática</h2>
+    <h3>Configure a gramática utilizada na análise sintática</h3>
+  </div>
+</div>
+
 {{grammar-input model}}
+
+<div class="row">
+  <div class="col-xs-12 text-right">
+    {{#bs-button type="primary" size="lg" action="next" disabled=(not grammar.isValid)}}
+      Próximo {{fa-icon "arrow-circle-right"}}
+    {{/bs-button}}
+  </div>
+</div>

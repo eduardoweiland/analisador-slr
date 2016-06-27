@@ -6,6 +6,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('analysis');
+  this.route('recognizer');
 });
 
 export default Router;
