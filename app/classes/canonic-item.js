@@ -1,6 +1,6 @@
 import Symbol, { SymbolType } from 'analisador-slr/classes/symbol';
 
 export default Symbol.extend({
-  name: '\u26AB',
+  name: '\u2022',
   type: SymbolType.ITEM
 });
