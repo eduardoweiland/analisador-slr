@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { Production, Symbol, CanonicItem } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
-const { Service } = Ember;
+const { Service, copy } = Ember;
 
 /**
  * SLR Analysis implementation.
@@ -20,7 +20,8 @@ export default Service.extend({
    * @public
    */
   augmentGrammar(grammar) {
-    let startSymbol = grammar.get('startSymbol');
+    let output = copy(grammar, true);
+    let startSymbol = output.get('startSymbol');
 
     let newSymbol = Symbol.create({
       name: `${startSymbol.get('name')}'`,
@@ -32,9 +33,11 @@ export default Service.extend({
       rightSide: [startSymbol]
     });
 
-    grammar.get('nonTerminalSymbols').unshiftObject(newSymbol);
-    grammar.get('productions').unshiftObject(newProduction);
-    grammar.set('startSymbol', newSymbol);
+    output.get('nonTerminalSymbols').unshiftObject(newSymbol);
+    output.get('productions').unshiftObject(newProduction);
+    output.set('startSymbol', newSymbol);
+
+    return output;
   },
 
   /**
@@ -45,8 +48,10 @@ export default Service.extend({
    * @public
    */
   addCanonicItems(grammar) {
-    grammar.get('productions').forEach((production) => {
+    let output = copy(grammar, true);
+    output.get('productions').forEach((production) => {
       production.get('rightSide').unshiftObject(CanonicItem.create());
     });
+    return output;
   }
 });

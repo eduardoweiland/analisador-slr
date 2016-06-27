@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
-const { A, computed } = Ember;
+const { A, Copyable, copy, computed } = Ember;
 
-export default Ember.Object.extend({
+const Grammar = Ember.Object.extend(Copyable, {
   nonTerminalSymbols: A(),
   terminalSymbols: A(),
   startSymbol: null,
@@ -77,5 +77,26 @@ export default Ember.Object.extend({
     }
 
     return errors;
-  })
+  }),
+
+  copy(deep) {
+    let data = this.getProperties('nonTerminalSymbols', 'terminalSymbols', 'startSymbol', 'productions');
+    let { nonTerminalSymbols, terminalSymbols, startSymbol, productions } = data;
+
+    if (deep) {
+      nonTerminalSymbols = copy(nonTerminalSymbols);
+      terminalSymbols = copy(terminalSymbols);
+      startSymbol = copy(startSymbol);
+      productions = copy(productions);
+    }
+
+    return Grammar.create({
+      nonTerminalSymbols,
+      terminalSymbols,
+      startSymbol,
+      productions
+    });
+  }
 });
+
+export default Grammar;

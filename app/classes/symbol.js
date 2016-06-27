@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed } = Ember;
+const { Copyable, computed } = Ember;
 
 export const SymbolType = {
   TERMINAL: 't',
@@ -8,7 +8,7 @@ export const SymbolType = {
   ITEM: 'i'
 };
 
-export default Ember.Object.extend({
+const Symbol = Ember.Object.extend(Copyable, {
   name: '',
   type: '',
 
@@ -18,5 +18,14 @@ export default Ember.Object.extend({
   isNonTerminal: computed.equal('type', SymbolType.NON_TERMINAL),
   isValidType: computed.or('isTerminal', 'isNonTerminal'),
 
-  isValid: computed.and('isValidName', 'isValidType')
+  isValid: computed.and('isValidName', 'isValidType'),
+
+  copy() {
+    return Symbol.create({
+      name: this.get('name'),
+      type: this.get('type')
+    });
+  }
 });
+
+export default Symbol;

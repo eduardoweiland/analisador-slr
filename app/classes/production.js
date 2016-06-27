@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import { Symbol } from 'analisador-slr/classes';
 
-const { A, computed, isEmpty } = Ember;
+const { A, Copyable, copy, computed, isEmpty } = Ember;
 
-export default Ember.Object.extend({
+const Production = Ember.Object.extend(Copyable, {
   leftSide: null,
   rightSide: A(),
 
@@ -45,5 +45,21 @@ export default Ember.Object.extend({
     }
 
     return errors;
-  })
+  }),
+
+  copy(deep) {
+    let { leftSide, rightSide } = this.getProperties(['leftSide', 'rightSide']);
+
+    if (deep) {
+      leftSide = copy(leftSide);
+      rightSide = copy(rightSide);
+    }
+
+    return Production.create({
+      leftSide,
+      rightSide
+    });
+  }
 });
+
+export default Production;
