@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { Production, Symbol, CanonicItem } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
-const { Service, copy } = Ember;
+const { A, Service, copy } = Ember;
 
 /**
  * SLR Analysis implementation.
@@ -52,6 +52,36 @@ export default Service.extend({
     output.get('productions').forEach((production) => {
       production.get('rightSide').unshiftObject(CanonicItem.create());
     });
+    return output;
+  },
+
+  /**
+   * Implementation of the closure function in the analyzer.
+   *
+   * @param {Production[]} productions Array with productions to apply the closure function.
+   * @param {Grammar} grammar Grammar with all production rules available.
+   * @return {Production[]} Array with productions after applying the closure function.
+   */
+  closure(productions, grammar) {
+    let output = A();
+    let testProductions = productions;
+
+    for (let i = 0; i < testProductions.length; ++i) {
+      output.pushObject(testProductions[i]);
+
+      let rightSide = testProductions[i].get('rightSide');
+      let afterItem = null;
+      for (let j = 0; j < rightSide.length; ++j) {
+        if (rightSide[j].get('type') === SymbolType.ITEM) {
+          afterItem = rightSide[j + 1];
+        }
+      }
+
+      if (afterItem && afterItem.get('isNonTerminal')) {
+        testProductions.pushObjects(grammar.getProductionsFor(afterItem));
+      }
+    }
+
     return output;
   }
 });

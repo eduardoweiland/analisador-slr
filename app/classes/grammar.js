@@ -79,6 +79,10 @@ const Grammar = Ember.Object.extend(Copyable, {
     return errors;
   }),
 
+  getProductionsFor(symbol) {
+    return this.get('productions').filterBy('leftSide.name', symbol.get('name'));
+  },
+
   copy(deep) {
     let data = this.getProperties('nonTerminalSymbols', 'terminalSymbols', 'startSymbol', 'productions');
     let { nonTerminalSymbols, terminalSymbols, startSymbol, productions } = data;
