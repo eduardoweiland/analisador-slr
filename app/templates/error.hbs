@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1><big>Oooppps!</big></h1>
+    <h3>Parece que encontramos um bug...</h3>
+    <p>
+      Alguma das seguintes opções pode ter acontecido:
+    </p>
+    <ul>
+      <li>Essa página não existe (mas como você chegou aqui? 0_0)</li>
+      <li>Ocorreu um erro no programa ("Na minha máquina funciona!")</li>
+    </ul>
+    {{link-to "Voltar ao início" "index" class="btn btn-success btn-lg"}}
+  </div>
+  <div class="col-sm-6">
+    <h1>
+      <big>
+        {{#fa-stack size=4 as |s|}}
+          {{s.stack-1x "bug"}}
+          {{s.stack-2x "ban" class="text-danger"}}
+        {{/fa-stack}}
+      </big>
+    </h1>
+  </div>
+</div>
+{{log model}}
