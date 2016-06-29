@@ -1,5 +1,5 @@
-G = ({ {{join ', ' (map-by 'name' grammar.nonTerminalSymbols)}} }, { {{join ', ' (map-by 'name' grammar.terminalSymbols)}} }, P, {{grammar.startSymbol.name}})
-P = {
+{{grammarSymbol}} = ({ {{join ', ' (map-by 'name' grammar.nonTerminalSymbols)}} }, { {{join ', ' (map-by 'name' grammar.terminalSymbols)}} }, {{productionsSymbol}}, {{grammar.startSymbol.name}})
+{{productionsSymbol}} = {
   {{#each grammar.productions as |p index|}}
     {{if numberProductions (concat '(' index ')  ')}}{{p.leftSide.name}} &rarr; {{join ' ' (map-by 'name' p.rightSide)}}
   {{/each}}
