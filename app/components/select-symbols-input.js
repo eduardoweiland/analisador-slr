@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import SymbolInput from 'analisador-slr/mixins/symbol-input';
 
 const { A, TextField, observer } = Ember;
 
-export default TextField.extend({
+export default TextField.extend(SymbolInput, {
   classNames: ['form-control'],
 
   /**

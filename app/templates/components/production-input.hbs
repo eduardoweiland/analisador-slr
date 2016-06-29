@@ -1,11 +1,11 @@
 <div class="col-xs-3 left-side">
-  {{select-symbols-input single=true symbolChanged=(action (mut production.leftSide)) availableSymbols=nonTerminalSymbols}}
+  {{select-symbols-input single=true symbol=production.leftSide symbolChanged=(action (mut production.leftSide)) availableSymbols=nonTerminalSymbols}}
 </div>
 <div class="col-xs-1 text-center arrow">
   {{fa-icon "arrow-right"}}
 </div>
 <div class="input-group col-xs-8 right-side">
-  {{select-symbols-input symbolsChanged=(action (mut production.rightSide)) availableSymbols=allSymbols}}
+  {{select-symbols-input symbols=production.rightSide symbolsChanged=(action (mut production.rightSide)) availableSymbols=allSymbols}}
   <span class="input-group-btn">
     {{bs-button type="danger" icon="fa fa-remove" action="remove"}}
   </span>

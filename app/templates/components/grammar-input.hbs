@@ -7,17 +7,17 @@
       <div class="panel-body">
         <div class="form-group {{if grammar.nonTerminalSymbolsErrors 'has-error'}}">
           <label class="control-label">Símbolos não-terminais:</label>
-          {{create-symbols-input symbolsChanged=(action (mut grammar.nonTerminalSymbols)) placeholder="Exemplo: S A B" symbolType="nt"}}
+          {{create-symbols-input symbols=grammar.nonTerminalSymbols symbolsChanged=(action (mut grammar.nonTerminalSymbols)) placeholder="Exemplo: S A B" symbolType="nt"}}
           {{error-list grammar.nonTerminalSymbolsErrors}}
         </div>
         <div class="form-group {{if grammar.terminalSymbolsErrors 'has-error'}}">
           <label class="control-label">Símbolos terminais:</label>
-          {{create-symbols-input symbolsChanged=(action (mut grammar.terminalSymbols)) placeholder="Exemplo: a b c" symbolType="t"}}
+          {{create-symbols-input symbols=grammar.terminalSymbols symbolsChanged=(action (mut grammar.terminalSymbols)) placeholder="Exemplo: a b c" symbolType="t"}}
           {{error-list grammar.terminalSymbolsErrors}}
         </div>
         <div class="form-group {{if grammar.startSymbolErrors 'has-error'}}">
           <label class="control-label">Símbolo de início de produção:</label>
-          {{select-symbols-input single=true symbolChanged=(action (mut grammar.startSymbol)) placeholder="Exemplo: S" availableSymbols=grammar.nonTerminalSymbols}}
+          {{select-symbols-input single=true symbol=grammar.startSymbol symbolChanged=(action (mut grammar.startSymbol)) placeholder="Exemplo: S" availableSymbols=grammar.nonTerminalSymbols}}
           {{error-list grammar.startSymbolErrors}}
         </div>
 
