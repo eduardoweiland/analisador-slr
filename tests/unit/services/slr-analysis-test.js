@@ -46,32 +46,52 @@ test('augmented grammar', function(assert) {
   assert.expect(7);
 
   let service = this.subject();
+  let augmented;
 
   run(() => {
-    service.augmentGrammar(grammar);
+    augmented = service.augmentGrammar(grammar);
   });
 
-  assert.equal(grammar.get('nonTerminalSymbols.length'), 4, 'New non-terminal symbol created');
-  assert.equal(grammar.get('nonTerminalSymbols.0.name'), "S'", 'New symbol name is corret');
-  assert.equal(grammar.get('productions.length'), 7, 'New production rule created');
+  assert.equal(augmented.get('nonTerminalSymbols.length'), 4, 'New non-terminal symbol created');
+  assert.equal(augmented.get('nonTerminalSymbols.0.name'), "S'", 'New symbol name is corret');
+  assert.equal(augmented.get('productions.length'), 7, 'New production rule created');
 
-  let firstProduction = grammar.get('productions').objectAt(0);
+  let firstProduction = augmented.get('productions').objectAt(0);
   let firstSymbolOnRight = firstProduction.get('rightSide').objectAt(0);
   assert.equal(firstProduction.get('leftSide.name'), "S'", 'The first production is the new one');
   assert.equal(firstProduction.get('rightSide.length'), 1, 'The new production has only one symbol');
   assert.equal(firstSymbolOnRight.get('name'), 'S', 'The new production generates the old start symbol');
 
-  assert.equal(grammar.get('startSymbol.name'), "S'", 'Start symbol is the new symbol');
+  assert.equal(augmented.get('startSymbol.name'), "S'", 'Start symbol is the new symbol');
 });
 
 test('add canonic items to productions', function(assert) {
   let service = this.subject();
+  let itemized;
 
   run(() => {
-    service.addCanonicItems(grammar);
+    itemized = service.addCanonicItems(grammar);
   });
 
-  grammar.get('productions').forEach((production) => {
+  itemized.get('productions').forEach((production) => {
     assert.equal(production.get('rightSide.0.type'), SymbolType.ITEM);
   });
+});
+
+test('calculate closure for a production set', function(assert) {
+  assert.expect(7);
+
+  let service = this.subject();
+
+  // Grammar must have canonic items for closure work
+  let itemized = service.addCanonicItems(grammar);
+  let closure = service.closure([p1, p2], itemized);
+
+  assert.equal(closure.length, 3);
+  assert.equal(closure[0].get('leftSide.name'), 'S');
+  assert.equal(closure[0].get('rightSide.0.type'), SymbolType.ITEM);
+  assert.equal(closure[1].get('leftSide.name'), 'A');
+  assert.equal(closure[1].get('rightSide.0.type'), SymbolType.ITEM);
+  assert.equal(closure[2].get('leftSide.name'), 'A');
+  assert.equal(closure[2].get('rightSide.0.type'), SymbolType.ITEM);
 });
