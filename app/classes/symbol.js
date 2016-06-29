@@ -8,7 +8,7 @@ export const SymbolType = {
   ITEM: 'i'
 };
 
-const Symbol = Ember.Object.extend(Copyable, {
+const Symbol = Ember.Object.extend(Copyable, { // jshint ignore:line
   name: '',
   type: '',
 
