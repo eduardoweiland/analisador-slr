@@ -1,15 +1,15 @@
-<nav class="navbar navbar-default navbar-static-top">
+<header class="navbar navbar-default navbar-static-top">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      {{#bs-button class="navbar-toggle" toggle=true active=(not collapsed) action="toggle"}}
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Analisador SLR</a>
+      {{/bs-button}}
+      <span class="navbar-brand active">Analisador SLR</span>
     </div>
-    <div id="navbar" class="navbar-collapse collapse">
+    {{#bs-collapse collapsed=collapsed class="navbar-collapse" tagName="nav"}}
       <ul class="nav navbar-nav">
         {{#active-link}}
           {{link-to "Início" "index"}}
@@ -25,6 +25,6 @@
         <li><a target="_blank" href="https://github.com/eduardoweiland/analisador-slr/wiki">Ajuda</a></li>
         <li><a target="_blank" href="https://github.com/eduardoweiland/analisador-slr">{{fa-icon "github" size="lg"}} Código-fonte</a></li>
       </ul>
-    </div>
+    {{/bs-collapse}}
   </div>
-</nav>
+</header>
