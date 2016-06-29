@@ -88,10 +88,10 @@ const Grammar = Ember.Object.extend(Copyable, {
     let { nonTerminalSymbols, terminalSymbols, startSymbol, productions } = data;
 
     if (deep) {
-      nonTerminalSymbols = copy(nonTerminalSymbols);
-      terminalSymbols = copy(terminalSymbols);
-      startSymbol = copy(startSymbol);
-      productions = copy(productions);
+      nonTerminalSymbols = copy(nonTerminalSymbols, deep);
+      terminalSymbols = copy(terminalSymbols, deep);
+      startSymbol = copy(startSymbol, deep);
+      productions = copy(productions, deep);
     }
 
     return Grammar.create({

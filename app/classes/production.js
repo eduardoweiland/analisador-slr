@@ -51,8 +51,8 @@ const Production = Ember.Object.extend(Copyable, {
     let { leftSide, rightSide } = this.getProperties(['leftSide', 'rightSide']);
 
     if (deep) {
-      leftSide = copy(leftSide);
-      rightSide = copy(rightSide);
+      leftSide = copy(leftSide, deep);
+      rightSide = copy(rightSide, deep);
     }
 
     return Production.create({
