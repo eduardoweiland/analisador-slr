@@ -6,11 +6,11 @@
   </div>
 </div>
 
-{{grammar-input model}}
+{{grammar-input grammar}}
 
 <div class="row">
   <div class="col-xs-12 text-right">
-    {{#bs-button type="primary" size="lg" action="next" disabled=(not model.isValid)}}
+    {{#bs-button type="primary" size="lg" action="next" disabled=(not grammar.isValid)}}
       Próximo {{fa-icon "arrow-circle-right"}}
     {{/bs-button}}
   </div>

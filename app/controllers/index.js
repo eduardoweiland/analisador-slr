@@ -3,6 +3,9 @@ import { Grammar, Production, Symbol } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 export default Ember.Controller.extend({
+  provider: Ember.inject.service('provider'),
+  grammar: Ember.computed.alias('provider.grammar'),
+
   actions: {
     next() {
       this.transitionToRoute('analysis');
@@ -35,7 +38,7 @@ export default Ember.Controller.extend({
         productions: [p1, p2, p3, p4, p5, p6]
       });
 
-      this.set('model', grammar);
+      this.set('grammar', grammar);
     }
   }
 });

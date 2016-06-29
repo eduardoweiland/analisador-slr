@@ -12,14 +12,6 @@ const { A, Service, copy } = Ember;
  */
 export default Service.extend({
   /**
-   * Original grammar used for the analysis.
-   * @property grammar
-   * @type Grammar
-   * @public
-   */
-  grammar: null,
-
-  /**
    * Modifies the grammar to be an augmented grammar (i.e. adds a new
    * production replacing the start symbol).
    *
