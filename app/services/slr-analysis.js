@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { Production, Symbol, CanonicItem } from 'analisador-slr/classes';
+import { Production, Symbol, ItemMarker } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 const { A, Service, copy } = Ember;
@@ -43,14 +43,14 @@ export default Service.extend({
   /**
    * Adds the canonic item to the beginning of all productions of the grammar.
    *
-   * @method addCanonicItems
+   * @method addItemMarkers
    * @param {Grammar} grammar Grammar to be modified.
    * @public
    */
-  addCanonicItems(grammar) {
+  addItemMarkers(grammar) {
     let output = copy(grammar, true);
     output.get('productions').forEach((production) => {
-      production.get('rightSide').unshiftObject(CanonicItem.create());
+      production.get('rightSide').unshiftObject(ItemMarker.create());
     });
     return output;
   },
@@ -74,7 +74,7 @@ export default Service.extend({
       let rightSide = testProductions[i].get('rightSide');
       let afterItem = null;
       for (let j = 0; j < rightSide.length; ++j) {
-        if (rightSide[j].get('type') === SymbolType.ITEM) {
+        if (rightSide[j].get('type') === SymbolType.ITEM_MARKER) {
           afterItem = rightSide[j + 1];
         }
       }

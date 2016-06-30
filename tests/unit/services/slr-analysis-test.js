@@ -70,11 +70,11 @@ test('add canonic items to productions', function(assert) {
   let itemized;
 
   run(() => {
-    itemized = service.addCanonicItems(grammar);
+    itemized = service.addItemMarkers(grammar);
   });
 
   itemized.get('productions').forEach((production) => {
-    assert.equal(production.get('rightSide.0.type'), SymbolType.ITEM);
+    assert.equal(production.get('rightSide.0.type'), SymbolType.ITEM_MARKER);
   });
 });
 
@@ -84,14 +84,15 @@ test('calculate closure for a production set', function(assert) {
   let service = this.subject();
 
   // Grammar must have canonic items for closure work
-  let itemized = service.addCanonicItems(grammar);
-  let closure = service.closure([p1, p2], itemized);
+  let itemized = service.addItemMarkers(grammar);
+  let productions = itemized.get('productions');
+  let closure = service.closure([productions[0], productions[1]], itemized);
 
   assert.equal(closure.length, 3);
   assert.equal(closure[0].get('leftSide.name'), 'S');
-  assert.equal(closure[0].get('rightSide.0.type'), SymbolType.ITEM);
+  assert.equal(closure[0].get('rightSide.0.type'), SymbolType.ITEM_MARKER);
   assert.equal(closure[1].get('leftSide.name'), 'A');
-  assert.equal(closure[1].get('rightSide.0.type'), SymbolType.ITEM);
+  assert.equal(closure[1].get('rightSide.0.type'), SymbolType.ITEM_MARKER);
   assert.equal(closure[2].get('leftSide.name'), 'A');
-  assert.equal(closure[2].get('rightSide.0.type'), SymbolType.ITEM);
+  assert.equal(closure[2].get('rightSide.0.type'), SymbolType.ITEM_MARKER);
 });
