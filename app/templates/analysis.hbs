@@ -5,8 +5,15 @@
   </div>
 </div>
 
-{{#if model}}
-  {{grammar-formalism model numberProductions=true}}
+{{#if model.grammar.isValid}}
+  <h3>Preparação da gramática</h3>
+  <p>
+    Esta etapa envolve a geração da <em>gramática aumentada</em>, a adição
+    dos <em>itens canônicos</em> e a <em>numeração das produções</em>. A
+    gramática gerada após essas modificações é exibida abaixo.
+  </p>
+
+  {{grammar-formalism model.itemized numberProductions=true grammarSymbol="G'"}}
 {{else}}
   {{#bs-alert type="danger" dismissible=false class="text-center"}}
     <h3>Gramática não foi configurada ainda...</h3>
