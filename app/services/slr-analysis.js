@@ -64,7 +64,8 @@ export default Service.extend({
    */
   closure(productions, grammar) {
     let output = A();
-    let testProductions = productions;
+    let testProductions = copy(productions);
+    let nonTerminalTested = A();
 
     for (let i = 0; i < testProductions.length; ++i) {
       if (!output.contains(testProductions[i])) {
@@ -79,8 +80,9 @@ export default Service.extend({
         }
       }
 
-      if (afterItem && afterItem.get('isNonTerminal')) {
+      if (afterItem && afterItem.get('isNonTerminal') && !nonTerminalTested.contains(afterItem)) {
         testProductions.pushObjects(grammar.getProductionsFor(afterItem));
+        nonTerminalTested.pushObject(afterItem);
       }
     }
 
