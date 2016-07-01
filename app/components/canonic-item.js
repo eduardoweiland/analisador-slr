@@ -4,6 +4,8 @@ import { formatSentence } from 'analisador-slr/helpers/format-sentence';
 const { Component, computed, isEmpty, typeOf } = Ember;
 
 const CanonicItem = Component.extend({
+  tagName: 'tr',
+
   item: null,
   arrow: '\u2192',
 
@@ -12,6 +14,13 @@ const CanonicItem = Component.extend({
       return true;
     }
     return false;
+  }),
+
+  _closureParameters: computed('item.parameters.[]', function() {
+    return this.get('item.parameters').map((production) => {
+      let right = formatSentence([production.get('rightSide')]);
+      return [production.get('leftSide.name'), this.get('arrow'), right].join(' ');
+    }).join(', ');
   }),
 
   _productionsDisplay: computed('item.productions.[]', function() {

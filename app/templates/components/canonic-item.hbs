@@ -1,3 +1,14 @@
-I<sub>{{item.endState}}</sub> =
-{{#if showGoto}}goto(I<sub>{{item.startState}}</sub>, {{item.inputSymbol}}) = {{/if}}
-closure() = { {{_productionsDisplay}} };
+<td class="text-right">
+  I<sub>{{item.endState}}</sub>
+</td>
+<td>
+  {{#if showGoto}}
+    = goto(I<sub>{{item.startState}}</sub>, {{item.inputSymbol.name}})
+  {{/if}}
+</td>
+<td>
+  = closure({ {{_closureParameters}} })
+</td>
+<td>
+  = { {{_productionsDisplay}} };
+</td>

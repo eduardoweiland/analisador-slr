@@ -31,6 +31,15 @@ export default Ember.Object.extend({
   inputSymbol: null,
 
   /**
+   * Parameters to the closure operation.
+   *
+   * @property parameters
+   * @type Production[]
+   * @public
+   */
+  parameters: A(),
+
+  /**
    * Productions with item marker in this canonic item. This is the result
    * of the closure operation.
    *
