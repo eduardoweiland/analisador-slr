@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { Grammar, Production, Symbol } from 'analisador-slr/classes';
+import { Grammar, Production, Sentence, Symbol } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 moduleForComponent('grammar-formalism', 'Integration | Component | grammar formalism', {
@@ -16,11 +16,11 @@ const grammar = Grammar.create({
   productions: [
     Production.create({
       leftSide: S,
-      rightSide: [a]
+      rightSide: Sentence.create({ symbols: [a] })
     }),
     Production.create({
       leftSide: S,
-      rightSide: [a, S]
+      rightSide: Sentence.create({ symbols: [a, S] })
     })
   ]
 });

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { Grammar, Production } from 'analisador-slr/classes';
+import { Grammar, Production, Sentence } from 'analisador-slr/classes';
 
 const { Component, assert } = Ember;
 
@@ -13,7 +13,7 @@ const GrammarInput = Component.extend({
 
   actions: {
     addProduction() {
-      let production = Production.create();
+      let production = Production.create({ rightSide: Sentence.create() });
       this.get('grammar.productions').pushObject(production);
     },
 

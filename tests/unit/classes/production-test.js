@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { SymbolType } from 'analisador-slr/classes/symbol';
-import { Production, Symbol } from 'analisador-slr/classes';
+import { Production, Sentence, Symbol } from 'analisador-slr/classes';
 
 module('Unit | Class | production');
 
@@ -31,7 +31,7 @@ test('right side is invalid when empty', function(assert) {
   assert.expect(1);
 
   let model = Production.create({
-    rightSide: []
+    rightSide: Sentence.create({ symbols: [] })
   });
 
   assert.notOk(model.get('isValidRightSide'));
@@ -51,7 +51,7 @@ test('right side is invalid when it contains an invalid symbol', function(assert
   });
 
   let model = Production.create({
-    rightSide: [valid, invalid]
+    rightSide: Sentence.create({ symbols: [valid, invalid] })
   });
 
   assert.notOk(model.get('isValidRightSide'));

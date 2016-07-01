@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { CanonicItem, ItemMarker, Production, Symbol } from 'analisador-slr/classes';
+import { CanonicItem, ItemMarker, Production, Sentence, Symbol } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 moduleForComponent('canonic-item', 'Integration | Component | canonic item', {
@@ -12,8 +12,8 @@ test('it renders', function(assert) {
   let S = Symbol.create({ name: 'S', type: SymbolType.NON_TERMINAL });
   let A = Symbol.create({ name: 'A', type: SymbolType.NON_TERMINAL });
   let a = Symbol.create({ name: 'a', type: SymbolType.TERMINAL });
-  let p1 = Production.create({ leftSide: S, rightSide: [marker, A] });
-  let p2 = Production.create({ leftSide: A, rightSide: [marker, a] });
+  let p1 = Production.create({ leftSide: S, rightSide: Sentence.create({ symbols: [marker, A] }) });
+  let p2 = Production.create({ leftSide: A, rightSide: Sentence.create({ symbols: [marker, a] }) });
 
   let canonicItem = CanonicItem.create({
     startState: 0,

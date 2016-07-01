@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import { SymbolType } from 'analisador-slr/classes/symbol';
-import { Grammar, Production, Symbol } from 'analisador-slr/classes';
+import { Grammar, Production, Sentence, Symbol } from 'analisador-slr/classes';
 
 const { run } = Ember;
 
@@ -20,12 +20,12 @@ moduleFor('service:slr-analysis', 'Unit | Service | slr analysis', {
     a = Symbol.create({ name: 'a', type: SymbolType.TERMINAL });
     b = Symbol.create({ name: 'b', type: SymbolType.TERMINAL });
 
-    p1 = Production.create({ leftSide: S, rightSide: [A, B] });
-    p2 = Production.create({ leftSide: A, rightSide: [a, B] });
-    p3 = Production.create({ leftSide: A, rightSide: [b] });
-    p4 = Production.create({ leftSide: B, rightSide: [A, b] });
-    p5 = Production.create({ leftSide: B, rightSide: [b] });
-    p6 = Production.create({ leftSide: B, rightSide: [A] });
+    p1 = Production.create({ leftSide: S, rightSide: Sentence.create({ symbols: [A, B] }) });
+    p2 = Production.create({ leftSide: A, rightSide: Sentence.create({ symbols: [a, B] }) });
+    p3 = Production.create({ leftSide: A, rightSide: Sentence.create({ symbols: [b] }) });
+    p4 = Production.create({ leftSide: B, rightSide: Sentence.create({ symbols: [A, b] }) });
+    p5 = Production.create({ leftSide: B, rightSide: Sentence.create({ symbols: [b] }) });
+    p6 = Production.create({ leftSide: B, rightSide: Sentence.create({ symbols: [A] }) });
 
     grammar = Grammar.create({
       terminalSymbols: [a, b],
@@ -57,9 +57,9 @@ test('augmented grammar', function(assert) {
   assert.equal(augmented.get('productions.length'), 7, 'New production rule created');
 
   let firstProduction = augmented.get('productions').objectAt(0);
-  let firstSymbolOnRight = firstProduction.get('rightSide').objectAt(0);
+  let firstSymbolOnRight = firstProduction.get('rightSide.symbols').objectAt(0);
   assert.equal(firstProduction.get('leftSide.name'), "S'", 'The first production is the new one');
-  assert.equal(firstProduction.get('rightSide.length'), 1, 'The new production has only one symbol');
+  assert.equal(firstProduction.get('rightSide.symbols.length'), 1, 'The new production has only one symbol');
   assert.equal(firstSymbolOnRight.get('name'), 'S', 'The new production generates the old start symbol');
 
   assert.equal(augmented.get('startSymbol.name'), "S'", 'Start symbol is the new symbol');
@@ -74,7 +74,7 @@ test('add canonic items to productions', function(assert) {
   });
 
   itemized.get('productions').forEach((production) => {
-    assert.equal(production.get('rightSide.0.type'), SymbolType.ITEM_MARKER);
+    assert.equal(production.get('rightSide.symbols.0.type'), SymbolType.ITEM_MARKER);
   });
 });
 
@@ -90,9 +90,9 @@ test('calculate closure for a production set', function(assert) {
 
   assert.equal(closure.length, 3);
   assert.equal(closure[0].get('leftSide.name'), 'S');
-  assert.equal(closure[0].get('rightSide.0.type'), SymbolType.ITEM_MARKER);
+  assert.equal(closure[0].get('rightSide.symbols.0.type'), SymbolType.ITEM_MARKER);
   assert.equal(closure[1].get('leftSide.name'), 'A');
-  assert.equal(closure[1].get('rightSide.0.type'), SymbolType.ITEM_MARKER);
+  assert.equal(closure[1].get('rightSide.symbols.0.type'), SymbolType.ITEM_MARKER);
   assert.equal(closure[2].get('leftSide.name'), 'A');
-  assert.equal(closure[2].get('rightSide.0.type'), SymbolType.ITEM_MARKER);
+  assert.equal(closure[2].get('rightSide.symbols.0.type'), SymbolType.ITEM_MARKER);
 });

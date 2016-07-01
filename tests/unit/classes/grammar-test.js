@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { SymbolType } from 'analisador-slr/classes/symbol';
-import { Grammar, Production, Symbol } from 'analisador-slr/classes';
+import { Grammar, Production, Sentence, Symbol } from 'analisador-slr/classes';
 
 let S, A, B, a, b;
 let p1, p2, p3, p4, p5, p6;
@@ -13,12 +13,12 @@ module('Unit | Class | grammar', {
     a = Symbol.create({ name: 'a', type: SymbolType.TERMINAL });
     b = Symbol.create({ name: 'b', type: SymbolType.TERMINAL });
 
-    p1 = Production.create({ leftSide: S, rightSide: [A, B] });
-    p2 = Production.create({ leftSide: A, rightSide: [a, B] });
-    p3 = Production.create({ leftSide: A, rightSide: [b] });
-    p4 = Production.create({ leftSide: B, rightSide: [A, b] });
-    p5 = Production.create({ leftSide: B, rightSide: [b] });
-    p6 = Production.create({ leftSide: B, rightSide: [A] });
+    p1 = Production.create({ leftSide: S, rightSide: Sentence.create({ symbols: [A, B] }) });
+    p2 = Production.create({ leftSide: A, rightSide: Sentence.create({ symbols: [a, B] }) });
+    p3 = Production.create({ leftSide: A, rightSide: Sentence.create({ symbols: [b] }) });
+    p4 = Production.create({ leftSide: B, rightSide: Sentence.create({ symbols: [A, b] }) });
+    p5 = Production.create({ leftSide: B, rightSide: Sentence.create({ symbols: [b] }) });
+    p6 = Production.create({ leftSide: B, rightSide: Sentence.create({ symbols: [A] }) });
   }
 });
 

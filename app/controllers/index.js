@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { Grammar, Production, Symbol } from 'analisador-slr/classes';
+import { Grammar, Production, Sentence, Symbol } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 export default Ember.Controller.extend({
@@ -24,12 +24,12 @@ export default Ember.Controller.extend({
       let tB = Symbol.create({ name: 'b', type: SymbolType.TERMINAL });
       let tComma = Symbol.create({ name: ';', type: SymbolType.TERMINAL });
 
-      let p1 = Production.create({ leftSide: ntS, rightSide: [tWhile, ntE, tDo, ntS] });
-      let p2 = Production.create({ leftSide: ntS, rightSide: [tBegin, ntL, tEnd] });
-      let p3 = Production.create({ leftSide: ntS, rightSide: [tA] });
-      let p4 = Production.create({ leftSide: ntL, rightSide: [ntL, tComma, ntS] });
-      let p5 = Production.create({ leftSide: ntL, rightSide: [ntS] });
-      let p6 = Production.create({ leftSide: ntE, rightSide: [tB] });
+      let p1 = Production.create({ leftSide: ntS, rightSide: Sentence.create({ symbols: [tWhile, ntE, tDo, ntS] }) });
+      let p2 = Production.create({ leftSide: ntS, rightSide: Sentence.create({ symbols: [tBegin, ntL, tEnd] }) });
+      let p3 = Production.create({ leftSide: ntS, rightSide: Sentence.create({ symbols: [tA] }) });
+      let p4 = Production.create({ leftSide: ntL, rightSide: Sentence.create({ symbols: [ntL, tComma, ntS] }) });
+      let p5 = Production.create({ leftSide: ntL, rightSide: Sentence.create({ symbols: [ntS] }) });
+      let p6 = Production.create({ leftSide: ntE, rightSide: Sentence.create({ symbols: [tB] }) });
 
       let grammar = Grammar.create({
         nonTerminalSymbols: [ntS, ntL, ntE],

@@ -4,13 +4,28 @@ import { Symbol } from 'analisador-slr/classes';
 const { A, Copyable, copy, computed, isEmpty } = Ember;
 
 const Production = Ember.Object.extend(Copyable, {
+  /**
+   * Left side of the production.
+   *
+   * @property leftSide
+   * @type Symbol
+   * @public
+   */
   leftSide: null,
-  rightSide: A(),
+
+  /**
+   * Right side of the production.
+   *
+   * @property rightSide
+   * @type Sentence
+   * @public
+   */
+  rightSide: null,
 
   isValidLeftSide: computed.and('leftSide.isValid', 'leftSide.isNonTerminal'),
 
-  isValidRightSide: computed('rightSide.@each.isValid', function() {
-    let rightSide = this.get('rightSide');
+  isValidRightSide: computed('rightSide.symbols.@each.isValid', function() {
+    let rightSide = this.get('rightSide.symbols');
     let invalid = rightSide.filterBy('isValid', false);
 
     if (isEmpty(rightSide) || !isEmpty(invalid)) {
@@ -22,7 +37,7 @@ const Production = Ember.Object.extend(Copyable, {
 
   isValid: computed.and('isValidLeftSide', 'isValidRightSide'),
 
-  errors: computed('leftSide', 'rightSide.[]', function() {
+  errors: computed('leftSide', 'rightSide.symbols.[]', function() {
     let errors = A();
     let leftSide = this.get('leftSide');
 
@@ -33,11 +48,11 @@ const Production = Ember.Object.extend(Copyable, {
       errors.push(`Símbolo ${leftSide} não é válido`);
     }
 
-    if (this.get('rightSide.length') === 0) {
+    if (this.get('rightSide.symbols.length') === 0) {
       errors.push(`Lado direito da produção não pode ficar vazio`);
     }
     else {
-      this.get('rightSide').forEach((symbol) => {
+      this.get('rightSide.symbols').forEach((symbol) => {
         if (!(symbol instanceof Symbol)) {
           errors.push(`Símbolo ${symbol} não é válido`);
         }

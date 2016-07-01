@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { Production, Symbol, ItemMarker } from 'analisador-slr/classes';
+import { Production, Sentence, Symbol, ItemMarker } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
 const { A, Service, copy } = Ember;
@@ -30,7 +30,7 @@ export default Service.extend({
 
     let newProduction = Production.create({
       leftSide: newSymbol,
-      rightSide: [startSymbol]
+      rightSide: Sentence.create({ symbols: [startSymbol] })
     });
 
     output.get('nonTerminalSymbols').unshiftObject(newSymbol);
@@ -50,7 +50,7 @@ export default Service.extend({
   addItemMarkers(grammar) {
     let output = copy(grammar, true);
     output.get('productions').forEach((production) => {
-      production.get('rightSide').unshiftObject(ItemMarker.create());
+      production.get('rightSide.symbols').unshiftObject(ItemMarker.create());
     });
     return output;
   },
@@ -71,9 +71,9 @@ export default Service.extend({
         output.pushObject(testProductions[i]);
       }
 
-      let rightSide = testProductions[i].get('rightSide');
+      let rightSide = testProductions[i].get('rightSide.symbols');
       let afterItem = null;
-      for (let j = 0; j < rightSide.length; ++j) {
+      for (let j = 0; j < rightSide.length && !afterItem; ++j) {
         if (rightSide[j].get('type') === SymbolType.ITEM_MARKER) {
           afterItem = rightSide[j + 1];
         }

@@ -5,7 +5,7 @@
   {{fa-icon "arrow-right"}}
 </div>
 <div class="input-group col-xs-8 right-side">
-  {{select-symbols-input symbols=production.rightSide symbolsChanged=(action (mut production.rightSide)) availableSymbols=allSymbols}}
+  {{select-symbols-input symbols=production.rightSide.symbols symbolsChanged=(action (mut production.rightSide.symbols)) availableSymbols=allSymbols}}
   <span class="input-group-btn">
     {{bs-button type="danger" icon="fa fa-remove" action="remove"}}
   </span>

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { formatSentence } from 'analisador-slr/helpers/format-sentence';
 
 const { Component, computed, isEmpty, typeOf } = Ember;
 
@@ -15,7 +16,7 @@ const CanonicItem = Component.extend({
 
   _productionsDisplay: computed('item.productions.[]', function() {
     return this.get('item.productions').map((production) => {
-      let right = production.get('rightSide').mapBy('name').join(' ');
+      let right = formatSentence([production.get('rightSide')]);
       return [production.get('leftSide.name'), this.get('arrow'), right].join(' ');
     }).join(', ');
   })
