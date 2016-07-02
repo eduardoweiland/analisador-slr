@@ -275,21 +275,29 @@ export default Service.extend({
         }));
       }
 
-      // Add REDUCE actions
+      // Add REDUCE and ACCEPT actions
       item.get('productions').forEach((production) => {
         if (production.get('rightSide').indexOfMarker() === production.get('rightSide.symbols.length') - 1) {
-          let follow = this.follow(production.get('leftSide'), grammar);
+          if (!grammar.get('productions').findBy('leftSide.name', production.get('leftSide.name'))) {
+            // Augmented production -> ACCEPT sentence
+            table.addAction(item.get('endState'), SentenceEndSymbol.create(), Action.create({
+              type: ActionType.ACCEPT
+            }));
+          }
+          else {
+            let follow = this.follow(production.get('leftSide'), grammar);
 
-          grammar.get('productions').forEach((grammarProduction, index) => {
-            if (this._isSameProduction(production, grammarProduction, true)) {
-              follow.forEach((symbol) => {
-                table.addAction(item.get('endState'), symbol, Action.create({
-                  type: ActionType.REDUCE,
-                  useProduction: index + 1
-                }));
-              });
-            }
-          });
+            grammar.get('productions').forEach((grammarProduction, index) => {
+              if (this._isSameProduction(production, grammarProduction, true)) {
+                follow.forEach((symbol) => {
+                  table.addAction(item.get('endState'), symbol, Action.create({
+                    type: ActionType.REDUCE,
+                    useProduction: index + 1
+                  }));
+                });
+              }
+            });
+          }
         }
       });
     });
