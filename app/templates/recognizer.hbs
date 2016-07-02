@@ -5,11 +5,56 @@
   </div>
 </div>
 
-{{#if model}}
+{{#if model.parsingTable}}
+  <div class="row">
+    <form class="recognition-form col-xs-12" {{action "recognizeSentence" on="submit"}}>
+      <div class="input-group">
+        {{input value=sentence class="form-control input-lg" placeholder="Digite para reconhecer"}}
+        <span class="input-group-btn">
+          {{#bs-button type="primary" size="lg" icon="fa fa-play"}}Reconhecer{{/bs-button}}
+        </span>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      {{#if recognitionSteps}}
+        <table class="table table-condensed table-bordered">
+          <thead>
+            <tr>
+              <th class="text-right">Passo</th>
+              <th>Pilha</th>
+              <th class="text-right">Fita de entrada</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each recognitionSteps as |step index|}}
+              <tr>
+                <td class="text-right">{{inc index}}</td>
+                <td>{{join ' ' step.stack}}</td>
+                <td class="text-right">{{join ' ' step.input}}</td>
+                <td>{{format-action step.action}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
+      {{#if recognized}}
+        {{#bs-alert type="success" dismissible=false class="text-center"}}
+          {{fa-icon "check-circle"}} Sentença foi reconhecida!
+        {{/bs-alert}}
+      {{else}}
+        {{#bs-alert type="danger" dismissible=false class="text-center"}}
+          {{fa-icon "times-circle"}} Sentença <strong>não</strong> foi reconhecida!
+        {{/bs-alert}}
+      {{/if}}
+    </div>
+  </div>
 {{else}}
   {{#bs-alert type="danger" dismissible=false class="text-center"}}
     <h3>Gramática não foi configurada ainda...</h3>
 
-    {{link-to 'Configurar gramática' 'index' class="btn btn-lg btn-danger"}}
+    {{link-to "Configurar gramática" "index" class="btn btn-lg btn-danger"}}
   {{/bs-alert}}
 {{/if}}

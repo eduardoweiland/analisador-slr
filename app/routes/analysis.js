@@ -16,9 +16,11 @@ export default Route.extend({
         itemized = this.get('slrAnalysis').addItemMarkers(augmented);
         canonicItems = this.get('slrAnalysis').buildCanonicSet(itemized);
         parsingTable = this.get('slrAnalysis').buildParsingTable(grammar, canonicItems);
+
+        this.set('provider.parsingTable', parsingTable);
       }
 
-      resolve({grammar, augmented, itemized, canonicItems, parsingTable});
+      resolve({ grammar, augmented, itemized, canonicItems, parsingTable });
     });
   }
 });
