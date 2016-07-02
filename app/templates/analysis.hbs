@@ -26,6 +26,20 @@
   </p>
 
   {{canonic-items-set model.canonicItems}}
+
+  <hr/>
+
+  <h3>Tabela sintática</h3>
+  <p>
+    A tabela sintática resume a saída do analisador em uma tabela, que é
+    consultada durante o processo de reconhecimento de sentenças. A tabela
+    é exibida abaixo.
+  </p>
+
+  {{#light-table model.parsingTable.table class="parsing-table" as |t|}}
+    {{t.head}}
+    {{t.body canSelect=false}}
+  {{/light-table}}
 {{else}}
   {{#bs-alert type="danger" dismissible=false class="text-center"}}
     <h3>Gramática não foi configurada ainda...</h3>

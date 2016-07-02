@@ -9,15 +9,16 @@ export default Route.extend({
   model() {
     return new Promise((resolve) => {
       let grammar = this.get('provider.grammar');
-      let augmented, itemized, canonicItems;
+      let augmented, itemized, canonicItems, parsingTable;
 
       if (grammar && grammar.get('isValid')) {
         augmented = this.get('slrAnalysis').augmentGrammar(grammar);
         itemized = this.get('slrAnalysis').addItemMarkers(augmented);
         canonicItems = this.get('slrAnalysis').buildCanonicSet(itemized);
+        parsingTable = this.get('slrAnalysis').buildParsingTable(grammar, canonicItems);
       }
 
-      resolve({grammar, augmented, itemized, canonicItems});
+      resolve({grammar, augmented, itemized, canonicItems, parsingTable});
     });
   }
 });
