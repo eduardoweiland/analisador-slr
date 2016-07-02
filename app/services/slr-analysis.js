@@ -1,8 +1,10 @@
 import Ember from 'ember';
-import { CanonicItem, Production, Sentence, Symbol, ItemMarker } from 'analisador-slr/classes';
+import { Action, CanonicItem, Production, Sentence, SentenceEndSymbol, Symbol, ItemMarker } from 'analisador-slr/classes';
 import { SymbolType } from 'analisador-slr/classes/symbol';
+import { ActionType } from 'analisador-slr/classes/action';
+import ParsingTable from 'analisador-slr/classes/parsing-table';
 
-const { A, Service, copy } = Ember;
+const { A, Service, copy, isNone } = Ember;
 
 /**
  * SLR Analysis implementation.
@@ -82,19 +84,25 @@ export default Service.extend({
     return output;
   },
 
-  _isSameProduction(a, b) {
+  _isSameProduction(a, b, ignoreMarker = false) {
     if (a.get('leftSide.name') !== b.get('leftSide.name')) {
       return false;
     }
 
-    if (a.get('rightSide.symbols.length') !== b.get('rightSide.symbols.length')) {
+    let symbolsA = a.get('rightSide.symbols');
+    let symbolsB = b.get('rightSide.symbols');
+
+    if (ignoreMarker) {
+      symbolsA = symbolsA.filter((symbol) => symbol.get('type') !== SymbolType.ITEM_MARKER);
+      symbolsB = symbolsB.filter((symbol) => symbol.get('type') !== SymbolType.ITEM_MARKER);
+    }
+
+    if (symbolsA.get('length') !== symbolsB.get('length')) {
       return false;
     }
 
-    let symbolsA = a.get('rightSide.symbols').mapBy('name');
-    let symbolsB = b.get('rightSide.symbols').mapBy('name');
-    for (let i = 0; i < symbolsA.length; ++i) {
-      if (symbolsA[i] !== symbolsB[i]) {
+    for (let i = 0; i < symbolsA.get('length'); ++i) {
+      if (symbolsA[i].get('name') !== symbolsB[i].get('name')) {
         return false;
       }
     }
@@ -177,5 +185,115 @@ export default Service.extend({
     }
 
     return resultingSet;
+  },
+
+  first(symbol, grammar) {
+    let first = A();
+
+    grammar.getProductionsFor(symbol).forEach((production) => {
+      let right = production.get('rightSide.symbols');
+
+      right.forEach((sentenceSymbol) => {
+        // If symbol is a terminal, append it to first and stop processing this production
+        if (sentenceSymbol.get('isTerminal')) {
+          first.pushObject(sentenceSymbol);
+          return false;
+        }
+
+        // If symbol is a non-terminal, append the first of it to first
+        if (sentenceSymbol.get('isNonTerminal') && sentenceSymbol.get('name') !== symbol.get('name')) {
+          first.pushObjects(this.first(sentenceSymbol, grammar));
+
+          // As we don't support empty sentence now, there is no need to look for next symbols...
+          return false;
+        }
+      });
+    });
+
+    return first;
+  },
+
+  follow(symbol, grammar) {
+    let follow = A();
+
+    if (symbol.get('name') === grammar.get('startSymbol.name')) {
+      follow.pushObject(SentenceEndSymbol.create());
+    }
+
+    grammar.get('productions').forEach((production) => {
+      let left = production.get('leftSide');
+      let right = production.get('rightSide.symbols');
+
+      right.forEach((sentenceSymbol, index) => {
+        if (symbol.get('name') === sentenceSymbol.get('name')) {
+          // If symbol is at the end of the production, append follow of leftSide
+          if (index === right.get('length') - 1) {
+            if (left.get('name') !== symbol.get('name')) {
+              follow.pushObjects(this.follow(left, grammar));
+            }
+            return;
+          }
+
+          // If symbol is followed by a terminal, append it to follow
+          if (right[index + 1].get('isTerminal')) {
+            follow.pushObject(right[index + 1]);
+            return;
+          }
+
+          // If symbol is followed by a non-terminal, append the first of it to follow
+          if (right[index + 1].get('isNonTerminal')) {
+            follow.pushObjects(this.first(right[index + 1], grammar));
+
+            // As we don't support empty sentence now, there is no need to look for next symbols...
+          }
+        }
+      });
+    });
+
+    return follow;
+  },
+
+  buildParsingTable(grammar, canonicItems) {
+    let table = ParsingTable.create({ grammar, canonicItems });
+
+    canonicItems.forEach((item) => {
+      let endState = isNone(item.get('alias')) ? item.get('endState') : item.get('alias.endState');
+
+      // Add DEVIATE actions
+      if (item.get('inputSymbol.isNonTerminal')) {
+        table.addAction(item.get('startState'), item.get('inputSymbol'), Action.create({
+          type: ActionType.DEVIATE,
+          toState: endState
+        }));
+      }
+
+      // Add SHIFT actions
+      if (item.get('inputSymbol.isTerminal')) {
+        table.addAction(item.get('startState'), item.get('inputSymbol'), Action.create({
+          type: ActionType.SHIFT,
+          toState: endState
+        }));
+      }
+
+      // Add REDUCE actions
+      item.get('productions').forEach((production) => {
+        if (production.get('rightSide').indexOfMarker() === production.get('rightSide.symbols.length') - 1) {
+          let follow = this.follow(production.get('leftSide'), grammar);
+
+          grammar.get('productions').forEach((grammarProduction, index) => {
+            if (this._isSameProduction(production, grammarProduction, true)) {
+              follow.forEach((symbol) => {
+                table.addAction(item.get('endState'), symbol, Action.create({
+                  type: ActionType.REDUCE,
+                  useProduction: index + 1
+                }));
+              });
+            }
+          });
+        }
+      });
+    });
+
+    return table;
   }
 });

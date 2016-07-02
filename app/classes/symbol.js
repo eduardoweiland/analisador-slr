@@ -5,7 +5,8 @@ const { Copyable, computed } = Ember;
 export const SymbolType = {
   TERMINAL: 't',
   NON_TERMINAL: 'nt',
-  ITEM_MARKER: 'i'
+  ITEM_MARKER: 'i',
+  SENTENCE_END: '$'
 };
 
 const Symbol = Ember.Object.extend(Copyable, { // jshint ignore:line

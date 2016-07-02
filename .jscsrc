@@ -57,7 +57,7 @@
   "requireCamelCaseOrUpperCaseIdentifiers": true,
   "requireCapitalizedComments": true,
   "requireCapitalizedConstructors": true,
-  "requireCurlyBraces": true,
+  "requireCurlyBraces": ["if", "else", "for", "while", "do", "with"],
   "requireDotNotation": true,
   "requireKeywordsOnNewLine": ["else", "catch"],
   "requireLineFeedAtFileEnd": true,
