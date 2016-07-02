@@ -47,5 +47,16 @@ export default Ember.Object.extend({
    * @type Production[]
    * @public
    */
-  productions: A()
+  productions: A(),
+
+  /**
+   * Reference to another CanonicItem that is exactly equal to this one (in
+   * this case, `productions` and `endState` will not be computed -- use the
+   * values in `alias`).
+   *
+   * @property alias
+   * @type {CanonicItem}
+   * @public
+   */
+  alias: null
 });

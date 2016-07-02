@@ -1,5 +1,7 @@
 <td class="text-right">
-  I<sub>{{item.endState}}</sub>
+  {{#unless item.alias}}
+    I<sub>{{item.endState}}</sub>
+  {{/unless}}
 </td>
 <td>
   {{#if showGoto}}
@@ -10,5 +12,9 @@
   = closure({ {{_closureParameters}} })
 </td>
 <td>
-  = { {{_productionsDisplay}} };
+  {{#if item.alias}}
+    = I<sub>{{item.alias.endState}}</sub>
+  {{else}}
+    = { {{_productionsDisplay}} };
+  {{/if}}
 </td>
