@@ -4,17 +4,28 @@
   {{/unless}}
 </td>
 <td>
+  {{#unless item.alias}}
+    =
+  {{/unless}}
+</td>
+<td>
   {{#if showGoto}}
-    = goto(I<sub>{{item.startState}}</sub>, {{item.inputSymbol.name}})
+    goto(I<sub>{{item.startState}}</sub>, {{item.inputSymbol.name}})
   {{/if}}
 </td>
 <td>
-  = closure({ {{_closureParameters}} })
+  =
+</td>
+<td>
+  closure({ {{_closureParameters}} })
+</td>
+<td>
+  =
 </td>
 <td>
   {{#if item.alias}}
-    = I<sub>{{item.alias.endState}}</sub>
+    I<sub>{{item.alias.endState}}</sub>
   {{else}}
-    = { {{_productionsDisplay}} };
+    { {{_productionsDisplay}} };
   {{/if}}
 </td>
