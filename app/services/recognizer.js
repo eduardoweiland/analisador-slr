@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { RecognitionStep, SentenceEndSymbol, Symbol } from 'analisador-slr/classes';
+import { RecognitionStep, Symbol } from 'analisador-slr/classes';
 import { ActionType } from 'analisador-slr/classes/action';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 

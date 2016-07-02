@@ -18,7 +18,8 @@ test('it renders', function(assert) {
   let canonicItem = CanonicItem.create({
     startState: 0,
     endState: 1,
-    inputSymbol: 'A',
+    inputSymbol: A,
+    parameters: [p1],
     productions: [p1, p2]
   });
 
@@ -26,6 +27,6 @@ test('it renders', function(assert) {
   this.render(hbs`{{canonic-item canonicItem arrow='->'}}`);
 
   let dot = marker.get('name');
-  let expected = `I1 = goto(I0, A) = closure() = { S -> ${dot} A, A -> ${dot} a };`;
+  let expected = `I1 = goto(I0, A) = closure({ S -> ${dot} A }) = { S -> ${dot} A, A -> ${dot} a };`;
   assert.equal(this.$().text().trim().replace(/\s+/g, ' '), expected);
 });

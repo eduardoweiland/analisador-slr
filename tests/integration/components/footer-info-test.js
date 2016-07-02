@@ -11,14 +11,9 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{footer-info}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  let text = this.$().text().trim();
 
-  // Template block usage:
-  this.render(hbs`
-    {{#footer-info}}
-      template block text
-    {{/footer-info}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.ok(text.contains('UNISC'));
+  assert.ok(text.contains('Eduardo Weiland'));
+  assert.ok(text.contains('Guilherme Bohm'));
 });

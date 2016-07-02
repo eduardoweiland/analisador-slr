@@ -1,24 +1,30 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { Grammar } from 'analisador-slr/classes';
 
 moduleForComponent('grammar-input', 'Integration | Component | grammar input', {
   integration: true
 });
 
 test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  assert.expect(2);
 
-  this.render(hbs`{{grammar-input}}`);
+  this.set('grammar', Grammar.create());
+  this.render(hbs`{{grammar-input grammar}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$('.panel-alphabet .panel-heading h4').text().trim(), 'Alfabeto');
+  assert.equal(this.$('.panel-productions .panel-heading h4').text().trim(), 'Regras de produção');
+});
 
-  // Template block usage:
-  this.render(hbs`
-    {{#grammar-input}}
-      template block text
-    {{/grammar-input}}
-  `);
+test('can add a new production', function(assert) {
+  assert.expect(3);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  this.set('grammar', Grammar.create());
+  this.render(hbs`{{grammar-input grammar}}`);
+
+  assert.equal(this.$('button.add-production').length, 1, 'button to add productions exists');
+
+  this.$('button.add-production').click();
+  assert.equal(this.get('grammar.productions.length'), 1, 'new production added to grammar object');
+  assert.equal(this.$('.panel-productions .production-input').length, 1, 'new production added to screen');
 });
