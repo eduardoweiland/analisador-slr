@@ -14,6 +14,18 @@
   </p>
 
   {{grammar-formalism model.itemized numberProductions=true grammarSymbol="G'"}}
+
+  <hr/>
+
+  <h3>Conjunto canônico de itens LR(0)</h3>
+  <p>
+    Nesta etapa é montado o conjunto canônico de itens LR(0), utilizando-se
+    as operações <em>closure</em> e <em>goto</em>. Esse conjunto é utilizado
+    posteriormente para a montagem da tabela sintática. Todo o processo
+    executado nesta etapa é exibido abaixo.
+  </p>
+
+  {{canonic-items-set model.canonicItems}}
 {{else}}
   {{#bs-alert type="danger" dismissible=false class="text-center"}}
     <h3>Gramática não foi configurada ainda...</h3>
