@@ -1,7 +1,9 @@
-# Analisador-slr
+# Analisador SLR
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Analisador sintático do tipo Simple LR (SLR) para uso didático.
+
+Trabalho desenvolvido na disciplina de Compiladores da Universidade de
+Santa Cruz do Sul ([UNISC](http://www.unisc.br)) em 2016.
 
 ## Prerequisites
 
@@ -15,8 +17,8 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
-* change into the new directory
+* `git clone https://github.com/eduardoweiland/analisador-slr.git`
+* `cd analisador-slr`
 * `npm install`
 * `bower install`
 
@@ -50,4 +52,3 @@ Specify what it takes to deploy your app.
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
-
