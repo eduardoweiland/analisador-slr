@@ -3,6 +3,7 @@ import CanonicItem from 'analisador-slr/classes/grammar';
 import Grammar from 'analisador-slr/classes/grammar';
 import ItemMarker from 'analisador-slr/classes/item-marker';
 import Production from 'analisador-slr/classes/production';
+import RecognitionStep from 'analisador-slr/classes/recognition-step';
 import Sentence from 'analisador-slr/classes/sentence';
 import SentenceEndSymbol from 'analisador-slr/classes/sentence-end-symbol';
 import Symbol from 'analisador-slr/classes/symbol';
@@ -13,6 +14,7 @@ export {
   Grammar,
   ItemMarker,
   Production,
+  RecognitionStep,
   Sentence,
   SentenceEndSymbol,
   Symbol

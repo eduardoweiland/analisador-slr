@@ -91,5 +91,13 @@ export default Ember.Object.extend({
 
   addAction(state, symbol, action) {
     this.get('table.rows').filterBy('state', state).setEach(`action_${symbol.get('name')}`, action);
+  },
+
+  getAction(state, symbol) {
+    let row = this.get('table.rows').filterBy('state', state)[0];
+    if (row) {
+      return row.get(`action_${symbol.get('name')}`);
+    }
+    return null;
   }
 });

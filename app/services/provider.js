@@ -9,5 +9,7 @@ export default Ember.Service.extend({
    * @type Grammar
    * @public
    */
-  grammar: Grammar.create()
+  grammar: Grammar.create(),
+
+  parsingTable: null
 });
