@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { SymbolType } from 'analisador-slr/classes/symbol';
 
-const { A, Copyable, copy } = Ember;
+const { A, Copyable, copy, isNone } = Ember;
 
 const Sentence = Ember.Object.extend(Copyable, {
   /**
@@ -42,6 +42,23 @@ const Sentence = Ember.Object.extend(Copyable, {
     }
 
     return false;
+  },
+
+  /**
+   * Finds the symbol that is after the canonic item marker.
+   *
+   * @return {Symbol} The symbol after the item marker, or `null` if nothing is found.
+   */
+  symbolAfterMarker() {
+    let symbols = this.get('symbols');
+
+    for (let i = 0; i < symbols.length; ++i) {
+      if ((symbols[i].get('type') === SymbolType.ITEM_MARKER) && !isNone(symbols[i + 1])) {
+        return symbols[i + 1];
+      }
+    }
+
+    return null;
   },
 
   copy(deep) {

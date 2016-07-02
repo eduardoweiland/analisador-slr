@@ -72,14 +72,7 @@ export default Service.extend({
         output.pushObject(testProductions[i]);
       }
 
-      let rightSide = testProductions[i].get('rightSide.symbols');
-      let afterItem = null;
-      for (let j = 0; j < rightSide.length && !afterItem; ++j) {
-        if (rightSide[j].get('type') === SymbolType.ITEM_MARKER) {
-          afterItem = rightSide[j + 1];
-        }
-      }
-
+      let afterItem = testProductions[i].get('rightSide').symbolAfterMarker();
       if (afterItem && afterItem.get('isNonTerminal') && !nonTerminalTested.contains(afterItem)) {
         testProductions.pushObjects(grammar.getProductionsFor(afterItem));
         nonTerminalTested.pushObject(afterItem);
