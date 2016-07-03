@@ -213,10 +213,17 @@ export default Service.extend({
     return first;
   },
 
-  follow(symbol, grammar) {
+  follow(symbol, grammar, cache = {}) {
     let follow = A();
+    let symbolName = symbol.get('name');
 
-    if (symbol.get('name') === grammar.get('startSymbol.name')) {
+    if (cache[symbolName]) {
+      return cache[symbolName];
+    }
+
+    cache[symbolName] = follow;
+
+    if (symbolName === grammar.get('startSymbol.name')) {
       follow.pushObject(SentenceEndSymbol.create());
     }
 
@@ -225,11 +232,11 @@ export default Service.extend({
       let right = production.get('rightSide.symbols');
 
       right.forEach((sentenceSymbol, index) => {
-        if (symbol.get('name') === sentenceSymbol.get('name')) {
+        if (symbolName === sentenceSymbol.get('name')) {
           // If symbol is at the end of the production, append follow of leftSide
           if (index === right.get('length') - 1) {
-            if (left.get('name') !== symbol.get('name')) {
-              follow.pushObjects(this.follow(left, grammar));
+            if (left.get('name') !== symbolName) {
+              follow.pushObjects(this.follow(left, grammar, cache));
             }
             return;
           }
