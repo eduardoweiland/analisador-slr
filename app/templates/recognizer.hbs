@@ -9,7 +9,7 @@
   <div class="row">
     <form class="recognition-form col-xs-12" {{action "recognizeSentence" on="submit"}}>
       <div class="input-group">
-        {{input value=sentence class="form-control input-lg" placeholder="Digite para reconhecer"}}
+        {{input value=sentence class="form-control input-lg" placeholder="Digite a sentença para reconhecer"}}
         <span class="input-group-btn">
           {{#bs-button type="primary" size="lg" icon="fa fa-play"}}Reconhecer{{/bs-button}}
         </span>
@@ -40,14 +40,16 @@
           </tbody>
         </table>
       {{/if}}
-      {{#if recognized}}
-        {{#bs-alert type="success" dismissible=false class="text-center"}}
-          {{fa-icon "check-circle"}} Sentença foi reconhecida!
-        {{/bs-alert}}
-      {{else}}
-        {{#bs-alert type="danger" dismissible=false class="text-center"}}
-          {{fa-icon "times-circle"}} Sentença <strong>não</strong> foi reconhecida!
-        {{/bs-alert}}
+      {{#if executed}}
+        {{#if recognized}}
+          {{#bs-alert type="success" dismissible=false class="text-center"}}
+            {{fa-icon "check-circle"}} Sentença foi reconhecida!
+          {{/bs-alert}}
+        {{else}}
+          {{#bs-alert type="danger" dismissible=false class="text-center"}}
+            {{fa-icon "times-circle"}} Sentença <strong>não</strong> foi reconhecida!
+          {{/bs-alert}}
+        {{/if}}
       {{/if}}
     </div>
   </div>

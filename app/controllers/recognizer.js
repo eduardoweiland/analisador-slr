@@ -8,6 +8,7 @@ export default Controller.extend({
 
   sentence: '',
   recognitionSteps: Ember.A(),
+  executed: false,
 
   recognized: computed('recognitionSteps', 'recognitionSteps.[]', function() {
     let steps = this.get('recognitionSteps');
@@ -19,9 +20,15 @@ export default Controller.extend({
 
   actions: {
     recognizeSentence() {
-      let steps = this.get('recognizer').recognizeSentence(this.get('sentence'));
-      this.set('recognitionSteps', steps);
-      return false;
+      if (isEmpty(this.get('sentence'))) {
+        this.set('recognitionSteps', []);
+        this.set('executed', false);
+      }
+      else {
+        let steps = this.get('recognizer').recognizeSentence(this.get('sentence'));
+        this.set('recognitionSteps', steps);
+        this.set('executed', true);
+      }
     }
   }
 });
