@@ -1,6 +1,21 @@
 <div class="row">
   <div class="col-xs-12 page-header">
-    {{#bs-button type="success" size="lg" action="loadExample" class="pull-right"}}Exemplo{{/bs-button}}
+    {{#bs-dropdown class="pull-right examples-dropdown"}}
+      {{#bs-dropdown-button type="success" size="lg"}}Exemplos <span class="caret"></span>{{/bs-dropdown-button}}
+      {{#bs-dropdown-menu}}
+        <li>
+          <a href="#" {{action "loadExample" example1}}>
+            {{grammar-formalism example1}}
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="#" {{action "loadExample" example2}}>
+            {{grammar-formalism example2}}
+          </a>
+        </li>
+      {{/bs-dropdown-menu}}
+    {{/bs-dropdown}}
     <h2>Entrada da gramática</h2>
     <h3>Configure a gramática utilizada na análise sintática</h3>
   </div>
