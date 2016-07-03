@@ -23,10 +23,13 @@
 
 {{grammar-input grammar}}
 
-<div class="row">
+<div class="row bottom-navigation">
   <div class="col-xs-12 text-right">
-    {{#bs-button type="primary" size="lg" action="next" disabled=(not grammar.isValid)}}
-      Próximo {{fa-icon "arrow-circle-right"}}
-    {{/bs-button}}
+    {{#link-to "analysis" class="btn btn-primary btn-lg" disabled=(not grammar.isValid)}}
+      Ver resultado da análise {{fa-icon "arrow-circle-right"}}
+    {{/link-to}}
+    {{#link-to "recognizer" class="btn btn-primary btn-lg" disabled=(not grammar.isValid)}}
+      Testar senteça {{fa-icon "arrow-circle-right"}}
+    {{/link-to}}
   </div>
 </div>

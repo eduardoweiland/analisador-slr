@@ -63,10 +63,6 @@ export default Controller.extend({
   }),
 
   actions: {
-    next() {
-      this.transitionToRoute('analysis');
-    },
-
     loadExample(grammar) {
       this.set('grammar', copy(grammar, true));
     }

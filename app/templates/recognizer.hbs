@@ -53,6 +53,18 @@
       {{/if}}
     </div>
   </div>
+
+  <div class="row bottom-navigation">
+    <div class="col-xs-6">
+      {{#link-to "index" class="btn btn-primary btn-lg"}}
+        {{fa-icon "arrow-circle-left"}} Modificar gramática
+      {{/link-to}}
+      {{#link-to "analysis" class="btn btn-primary btn-lg"}}
+        {{fa-icon "arrow-circle-left"}} Ver resultado da análise
+      {{/link-to}}
+    </div>
+  </div>
+
 {{else}}
   {{#bs-alert type="danger" dismissible=false class="text-center"}}
     <h3>Gramática não foi configurada ainda...</h3>
