@@ -10,8 +10,8 @@ test('format shift actions', function(assert) {
   let action = Action.create({ type: ActionType.SHIFT, toState: 2 });
   let result = formatAction([action]);
 
-  assert.ok(result.toLowerCase().contains('empilhar'));
-  assert.ok(result.contains('2'));
+  assert.notEqual(result.toLowerCase().indexOf('empilhar'), -1);
+  assert.notEqual(result.indexOf('2'), -1);
 });
 
 test('format reduce actions', function(assert) {
@@ -20,8 +20,8 @@ test('format reduce actions', function(assert) {
   let action = Action.create({ type: ActionType.REDUCE, useProduction: 3 });
   let result = formatAction([action]);
 
-  assert.ok(result.toLowerCase().contains('reduzir'));
-  assert.ok(result.contains('3'));
+  assert.notEqual(result.toLowerCase().indexOf('reduzir'), -1);
+  assert.notEqual(result.indexOf('3'), -1);
 });
 
 test('format deviate actions', function(assert) {
@@ -30,8 +30,8 @@ test('format deviate actions', function(assert) {
   let action = Action.create({ type: ActionType.DEVIATE, toState: 4 });
   let result = formatAction([action]);
 
-  assert.ok(result.toLowerCase().contains('desviar'));
-  assert.ok(result.contains('4'));
+  assert.notEqual(result.toLowerCase().indexOf('desviar'), -1);
+  assert.notEqual(result.indexOf('4'), -1);
 });
 
 test('format accept actions', function(assert) {
@@ -40,5 +40,5 @@ test('format accept actions', function(assert) {
   let action = Action.create({ type: ActionType.ACCEPT });
   let result = formatAction([action]);
 
-  assert.ok(result.toLowerCase().contains('aceitar'));
+  assert.notEqual(result.toLowerCase().indexOf('aceitar'), -1);
 });

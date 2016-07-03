@@ -13,7 +13,7 @@ test('it renders', function(assert) {
 
   let text = this.$().text().trim();
 
-  assert.ok(text.contains('UNISC'));
-  assert.ok(text.contains('Eduardo Weiland'));
-  assert.ok(text.contains('Guilherme Bohm'));
+  assert.notEqual(text.indexOf('UNISC'), -1);
+  assert.notEqual(text.indexOf('Eduardo Weiland'), -1);
+  assert.notEqual(text.indexOf('Guilherme Bohm'), -1);
 });
