@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { assert, isEmpty } = Ember;
+
 /**
  * @enum ActionType
  */
@@ -40,7 +42,12 @@ const Action = Ember.Object.extend({
    * @type Production
    * @public
    */
-  useProduction: null
+  useProduction: null,
+
+  init() {
+    this._super(...arguments);
+    assert('You mus specify a type for the action', !isEmpty(this.get('type')));
+  }
 });
 
 export default Action;
