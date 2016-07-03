@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import OneWayInputComponent from 'ember-one-way-controls/components/one-way-input';
 import SymbolInput from 'analisador-slr/mixins/symbol-input';
 
-const { A, TextField, observer } = Ember;
+const { A, run } = Ember;
 
-export default TextField.extend(SymbolInput, {
+export default OneWayInputComponent.extend(SymbolInput, {
   classNames: ['form-control'],
 
   /**
@@ -31,8 +32,47 @@ export default TextField.extend(SymbolInput, {
     }
   },
 
-  valueDidChange: observer('availableSymbols.[]', 'value', function() {
-    let names = this.get('value').match(/([^\s]+)/g) || A();
+  init() {
+    this._super(...arguments);
+    this._availableSymbols = this.get('availableSymbols').mapBy('name');
+    this._updateInputFromSymbols();
+  },
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this._updateInputFromSymbols();
+
+    if (this._availableSymbolsHasChanged()) {
+      run.next(() => {
+        this._updateSymbolsFromInput(this._sanitizedValue);
+      });
+    }
+  },
+
+  _availableSymbolsHasChanged() {
+    let availableSymbols = this.get('availableSymbols').mapBy('name');
+    if (availableSymbols.length !== this._availableSymbols.length) {
+      this._availableSymbols = availableSymbols;
+      return true;
+    }
+    for (let i = 0; i < availableSymbols.length; ++i) {
+      if (availableSymbols[i] !== this._availableSymbols[i]) {
+        this._availableSymbols = availableSymbols;
+        return true;
+      }
+    }
+    return false;
+  },
+
+  _updateInputFromSymbols() {
+    if (this.get('single')) {
+      this.set('symbols', [this.get('symbol')]);
+    }
+    this._super(...arguments);
+  },
+
+  _updateSymbolsFromInput(value) {
+    let names = value.match(/([^\s]+)/g) || A();
     let symbols = A();
 
     names.forEach((name) => {
@@ -52,5 +92,5 @@ export default TextField.extend(SymbolInput, {
     else {
       this.sendAction('symbolsChanged', symbols);
     }
-  })
+  }
 });

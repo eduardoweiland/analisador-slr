@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import OneWayInputComponent from 'ember-one-way-controls/components/one-way-input';
 import SymbolInput from 'analisador-slr/mixins/symbol-input';
 import { Symbol } from 'analisador-slr/classes';
 
-const { A, TextField, observer } = Ember;
+const { A } = Ember;
 
-export default TextField.extend(SymbolInput, {
+export default OneWayInputComponent.extend(SymbolInput, {
   classNames: ['form-control'],
 
   /**
@@ -17,8 +18,18 @@ export default TextField.extend(SymbolInput, {
    */
   symbolType: null,
 
-  valueDidChange: observer('value', function() {
-    let names = this.get('value').match(/([^\s]+)/g) || A();
+  init() {
+    this._super(...arguments);
+    this._updateInputFromSymbols();
+  },
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this._updateInputFromSymbols();
+  },
+
+  _updateSymbolsFromInput(value) {
+    let names = value.match(/([^\s]+)/g) || A();
     let type = this.get('symbolType');
     let symbols = A();
 
@@ -27,5 +38,5 @@ export default TextField.extend(SymbolInput, {
     });
 
     this.sendAction('symbolsChanged', symbols);
-  })
+  }
 });
