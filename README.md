@@ -1,4 +1,4 @@
-# Analisador SLR
+# Analisador SLR [![Build Status](https://travis-ci.org/eduardoweiland/analisador-slr.svg?branch=master)](https://travis-ci.org/eduardoweiland/analisador-slr)
 
 Analisador sintático do tipo Simple LR (SLR) para uso didático.
 
