@@ -2,6 +2,11 @@ import Ember from 'ember';
 
 const { A } = Ember;
 
+/**
+ * @class CanonicItem
+ * @extends Ember.Object
+ * @module classes
+ */
 export default Ember.Object.extend({
   /**
    * Initial state for the goto operation in this canonic item.
@@ -55,7 +60,7 @@ export default Ember.Object.extend({
    * values in `alias`).
    *
    * @property alias
-   * @type {CanonicItem}
+   * @type CanonicItem
    * @public
    */
   alias: null

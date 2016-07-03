@@ -1,0 +1,25 @@
+{
+  "name": "analisador-slr",
+  "description": "Trabalho II de Compiladores - UNISC 2016",
+  "url": "https://github.com/eduardoweiland/analisador-slr",
+  "options": {
+    "paths": [
+      "app"
+    ],
+    "external": {
+      "data": [
+        {
+          "base": "http://emberjs.com/api/",
+          "json": "http://builds.emberjs.com/tags/v2.4.0/ember-docs.json"
+        }
+      ]
+    },
+    "exclude": "vendor",
+    "outdir": "docs",
+    "linkNatives": true,
+    "quiet": true,
+    "parseOnly": false,
+    "lint": false,
+    "nocode": false
+  }
+}

@@ -2,12 +2,46 @@ import Ember from 'ember';
 
 const { A, Copyable, copy, computed } = Ember;
 
+/**
+ * @class Grammar
+ * @extends Ember.Object
+ * @uses Ember.Copyable
+ * @module classes
+ */
 const Grammar = Ember.Object.extend(Copyable, {
+  /**
+   * @property nonTerminalSymbols
+   * @type Symbol[]
+   * @public
+   */
   nonTerminalSymbols: A(),
+
+  /**
+   * @property terminalSymbols
+   * @type Symbol[]
+   * @public
+   */
   terminalSymbols: A(),
+
+  /**
+   * @property startSymbol
+   * @type Symbol
+   * @public
+   */
   startSymbol: null,
+
+  /**
+   * @property productions
+   * @type Production[]
+   * @public
+   */
   productions: A(),
 
+  /**
+   * @property isValid
+   * @type Boolean
+   * @public
+   */
   isValid: computed('nonTerminalSymbolsErrors', 'terminalSymbolsErrors', 'startSymbolErrors', 'productions.@each.errors', function() {
     let valid = true;
     valid = valid && this.get('nonTerminalSymbolsErrors').length === 0;
@@ -22,6 +56,13 @@ const Grammar = Ember.Object.extend(Copyable, {
     return valid;
   }),
 
+  /**
+   * Validation error messages for non-terminal symbols.
+   *
+   * @property nonTerminalSymbolsErrors
+   * @type String[]
+   * @public
+   */
   nonTerminalSymbolsErrors: computed('nonTerminalSymbols.[]', 'terminalSymbols.[]', function() {
     let errors = A();
     let symbols = {};
@@ -45,6 +86,13 @@ const Grammar = Ember.Object.extend(Copyable, {
     return errors;
   }),
 
+  /**
+   * Validation error messages for terminal symbols.
+   *
+   * @property terminalSymbolsErrors
+   * @type String[]
+   * @public
+   */
   terminalSymbolsErrors: computed('nonTerminalSymbols.[]', 'terminalSymbols.[]', function() {
     let errors = A();
     let symbols = {};
@@ -68,6 +116,13 @@ const Grammar = Ember.Object.extend(Copyable, {
     return errors;
   }),
 
+  /**
+   * Validation error messages for the production start symbol.
+   *
+   * @property startSymbolErrors
+   * @type String[]
+   * @public
+   */
   startSymbolErrors: computed('startSymbol', 'nonTerminalSymbols.[]', function() {
     let errors = A();
     let name = this.get('startSymbol.name');
@@ -79,6 +134,13 @@ const Grammar = Ember.Object.extend(Copyable, {
     return errors;
   }),
 
+  /**
+   * Find all the productions in the grammar for the specified symbol.
+   *
+   * @method getProductionsFor
+   * @param {Symbol} symbol Non-terminal symbol to find
+   * @return Production[]
+   */
   getProductionsFor(symbol) {
     return this.get('productions').filterBy('leftSide.name', symbol.get('name'));
   },

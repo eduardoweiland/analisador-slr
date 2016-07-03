@@ -3,6 +3,12 @@ import { SymbolType } from 'analisador-slr/classes/symbol';
 
 const { A, Copyable, copy, isNone } = Ember;
 
+/**
+ * @class Sentence
+ * @extends Ember.Object
+ * @uses Ember.Copyable
+ * @module classes
+ */
 const Sentence = Ember.Object.extend(Copyable, {
   /**
    * Array of symbols that build this sentence.
@@ -13,6 +19,12 @@ const Sentence = Ember.Object.extend(Copyable, {
    */
   symbols: A(),
 
+  /**
+   * Finds the position of the item marker in this sentence.
+   *
+   * @method indexOfMarker
+   * @return {Number} Index of the item marker or -1 if not found.
+   */
   indexOfMarker() {
     let marker = this.get('symbols').findBy('type', SymbolType.ITEM_MARKER);
 

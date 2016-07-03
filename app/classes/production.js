@@ -3,6 +3,12 @@ import { Symbol } from 'analisador-slr/classes';
 
 const { A, Copyable, copy, computed, isEmpty } = Ember;
 
+/**
+ * @class Production
+ * @extends Ember.Object
+ * @uses Ember.Copyable
+ * @module classes
+ */
 const Production = Ember.Object.extend(Copyable, {
   /**
    * Left side of the production.
@@ -22,8 +28,18 @@ const Production = Ember.Object.extend(Copyable, {
    */
   rightSide: null,
 
+  /**
+   * @property isValidLeftSide
+   * @type Boolean
+   * @public
+   */
   isValidLeftSide: computed.and('leftSide.isValid', 'leftSide.isNonTerminal'),
 
+  /**
+   * @property isValidRightSide
+   * @type Boolean
+   * @public
+   */
   isValidRightSide: computed('rightSide.symbols.@each.isValid', function() {
     let rightSide = this.get('rightSide.symbols');
     let invalid = rightSide.filterBy('isValid', false);
@@ -35,8 +51,20 @@ const Production = Ember.Object.extend(Copyable, {
     return true;
   }),
 
+  /**
+   * @property isValid
+   * @type Boolean
+   * @public
+   */
   isValid: computed.and('isValidLeftSide', 'isValidRightSide'),
 
+  /**
+   * Validation error messages in this production.
+   *
+   * @property errors
+   * @type String[]
+   * @public
+   */
   errors: computed('leftSide', 'rightSide.symbols.[]', function() {
     let errors = A();
     let leftSide = this.get('leftSide');
