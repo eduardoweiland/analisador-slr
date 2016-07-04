@@ -65,3 +65,4 @@ export default Ember.Object.extend({
    */
   alias: null
 });
+
